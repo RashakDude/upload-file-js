@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload | We Love Kittens!</title>
+</head>
+<body>
+    <button id="getImage">Get Kitten Image</button>
+    <script>
+        document.getElementById('getImage').addEventListener('click', () => {
+            fetch('kittens_1.jpg')
+                .then(res => res.blob())
+                .then( data => {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(data);
+                    document.body.appendChild(img);
+                });
+        });
+    </script>
+</body>
+</html>
