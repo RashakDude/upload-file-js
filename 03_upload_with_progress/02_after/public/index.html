@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload | We Love Kittens!</title>
+</head>
+<body>
+    <form method="post" action="/api/multi-file" enctype="multipart/form-data">
+        <input type="file" name="myfile" id="myfile" multiple><br>
+        <button type="submit">Submit</button>
+    </form>
+    <button id="submitXHR">Submit with XHR</button>
+    <script>
+        const input = document.getElementById('myfile');
+        const img = document.querySelector('img');
+        document.getElementById('submitXHR').addEventListener('click', () => {
+            for (const f of input.files) {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = 'blob';
+                xhr.addEventListener('readystatechange', () => {
+                    if (xhr.readyState === xhr.DONE /* 4 */) {
+                        const img = document.createElement('img');
+                        img.src = URL.createObjectURL(xhr.response);
+                        document.body.appendChild(img);
+                    }
+                });
+                xhr.addEventListener('progress', e => {
+                    console.log(`Percent complete: ${Math.round(e.loaded/e.total*100)}%`);
+                });
+                xhr.open('POST', '/api/single-file');
+                xhr.send(f);
+            }
+        });
+    </script>
+</body>
+</html>

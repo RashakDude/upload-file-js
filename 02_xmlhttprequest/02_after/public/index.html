@@ -10,5 +10,14 @@
         <input type="file" name="myfiles" id="myfiles" multiple><br>
         <button type="submit">Submit</button>
     </form>
+    <button id="submitXHR">Submit with XHR</button>
+    <script>
+        const form = document.querySelector('form');
+        document.getElementById('submitXHR').addEventListener('click', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/multi-file', false);
+            xhr.send(new FormData(form));
+        });
+    </script>
 </body>
 </html>
