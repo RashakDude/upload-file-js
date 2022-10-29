@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload | We Love Kittens!</title>
+</head>
+<body>
+    <form method="post" action="/api/single-file" enctype="multipart/form-data">
+        <input type="file" name="myfile" id="myfile"><br>
+        <button type="submit">Submit</button>
+    </form>
+    <button id="submitXHR">Submit with XHR</button>
+    <img />
+    <script>
+        const input = document.getElementById('myfile');
+        const img = document.querySelector('img');
+        document.getElementById('submitXHR').addEventListener('click', () => {
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.addEventListener('readystatechange', () => {
+                if (xhr.readyState === xhr.DONE /* 4 */) {
+                    img.src = URL.createObjectURL(xhr.response);
+                }
+            });
+            xhr.open('POST', '/api/single-file');
+            xhr.send(input.files[0]);
+        });
+    </script>
+</body>
+</html>
